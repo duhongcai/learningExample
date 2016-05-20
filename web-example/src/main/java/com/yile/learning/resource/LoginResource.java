@@ -88,7 +88,7 @@ public class LoginResource {
 	@Path("clearCache")
 	@Produces(MediaType.TEXT_HTML)
 	public void cleanAuthz() {
-		securityRealm.clearCache();
+		securityRealm.cleanAuthorizationCache("1");
 	}
 
 	/**
