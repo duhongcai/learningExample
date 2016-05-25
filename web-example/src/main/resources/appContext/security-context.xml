@@ -73,6 +73,7 @@
 		<!-- 没有权限或者失败后跳转的页面 -->
 		<property name="successUrl" value="/index" />
 		<property name="unauthorizedUrl" value="/unauthorized" />
+		<property name="filterUrl" value="/images/**"></property>
 		<property name="filters">
 			<map>
 				<entry key="yilePermsFilter" value-ref="yilePermsFilter"></entry>
