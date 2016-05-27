@@ -54,4 +54,19 @@
 		<property name="basePackage" value="com.yile.**.mapper" />
 		<property name="rabbitJadbFactoryBeanName" value="rabbitJadbFactory" />
 	</bean>
+
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+	<!-- <aop:config> <aop:pointcut id="jdbcServiceMethod" expression="execution(* 
+		com.yile.*..service.*Service.*(..))" /> <aop:advisor pointcut-ref="jdbcServiceMethod" 
+		advice-ref="txAdvice" /> </aop:config> <tx:advice id="txAdvice" transaction-manager="transactionManager"> 
+		<tx:attributes> <tx:method name="search*" read-only="true" /> <tx:method 
+		name="find*" read-only="true" /> <tx:method name="get*" read-only="true" 
+		/> <tx:method name="select*" read-only="true" /> <tx:method name="*" read-only="false" 
+		rollback-for="ServiceException,Exception" /> </tx:attributes> </tx:advice> -->
 </beans>
