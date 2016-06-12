@@ -18,6 +18,7 @@
 		class="com.rabbitframework.security.web.session.mgt.SimpleWebSessionManager">
 		<property name="sessionDAO" ref="redisSessionDAO" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
+		<property name="postLoginUrl" value="/login" />
 		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler" 
 			/> <property name="sessionValidationSchedulerEnabled" value="false" /> -->
 	</bean>
