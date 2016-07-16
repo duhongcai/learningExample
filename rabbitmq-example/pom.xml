@@ -10,4 +10,14 @@
 	</parent>
 	<artifactId>rabbitmq-example</artifactId>
 	<packaging>jar</packaging>
+	<properties>
+		<rabbitmq.version>3.6.3</rabbitmq.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>${rabbitmq.version}</version>
+		</dependency>
+	</dependencies>
 </project>
