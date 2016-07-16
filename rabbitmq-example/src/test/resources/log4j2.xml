@@ -22,6 +22,7 @@
 		<logger name="com.tjzq.learning" level="debug" />
 		<logger name="com.rabbitframework.commons" level="info" />
 		<logger name="com.mchange.v2" level="info" />
+		<logger name="com.rabbitmq" level="debug" />
 		<root level="DEBUG">
 			<appender-ref ref="Console" />
 		</root>
