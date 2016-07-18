@@ -12,6 +12,7 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+import org.junit.Test;
 
 import com.yile.learning.cassandra.AbstractCassandraCase;
 
@@ -20,7 +21,7 @@ public class CassandraTest extends AbstractCassandraCase {
 	private Cassandra.Client client;
 	private TTransport transport;
 
-	// @Test
+	@Test
 	public void getKeyspaces() throws Exception {
 		List<KsDef> ksDefs = client.describe_keyspaces();
 		for (KsDef ksDef : ksDefs) {
