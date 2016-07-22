@@ -1,0 +1,1 @@
+security示例集成框架:jersey+rabbitframework+redis

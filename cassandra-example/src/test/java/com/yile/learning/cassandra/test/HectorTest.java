@@ -1,5 +1,8 @@
 package com.yile.learning.cassandra.test;
+
 import static com.yile.learning.cassandra.test.Constants.*;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -126,11 +129,20 @@ public class HectorTest extends AbstractCassandraCase {
 		logger.info("Query Execute: " + colResult.get());
 	}
 
+	/*
+	 * 创建keyspace
+	 */
+	public void createKeyspaceDefinition() {
+		KeyspaceDefinition keyspaceDefinition = HFactory.createKeyspaceDefinition(DYN_KEYSPACE,
+				"org.apache.cassandra.locator.SimpleStrategy", 1, new ArrayList<ColumnFamilyDefinition>());
+		cluster.addKeyspace(keyspaceDefinition);
+	}
+
 	@Test
 	public void testMain() {
 		// createSchema();
 		// getKeyspaces();
-//		 insertData();
-		query();
+		// insertData();
+		// query();
 	}
 }
