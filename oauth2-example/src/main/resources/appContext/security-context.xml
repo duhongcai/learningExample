@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	<bean id="securityManager"
+		class="com.rabbitframework.security.web.mgt.SimpleWebSecurityManager">
+		<property name="realm" ref="securityRealm" />
+		<property name="sessionManager" ref="webSessionManager" />
+		<property name="cacheManager" ref="redisCacheManager" />
+	</bean>
+
+	<bean name="webSessionManager"
+		class="com.rabbitframework.security.web.session.mgt.SimpleWebSessionManager">
+		<property name="sessionDAO" ref="redisSessionDAO" />
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+		<property name="postLoginUrl" value="/login" />
+	</bean>
+
+	<bean name="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg name="name" value="RSESSIONID" />
+		<property name="path" value="/" />
+		<property name="maxAge" value="-1" />
+	</bean>
+
+	<!-- <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler"> 
+		<property name="interval" value="3600000" /> <property name="sessionManager" 
+		ref="webSessionManager" /> </bean> -->
+	<bean id="redisCacheManager"
+		class="com.rabbitframework.security.cache.redis.RedisCacheManager">
+		<property name="redisManager" ref="shardedJedisPoolManager" />
+	</bean>
+
+	<bean id="shardedJedisPoolManager"
+		class="com.rabbitframework.security.cache.redis.ShardedJedisPoolManager">
+		<property name="shardedJedisPool" ref="shardedJedisPool" />
+	</bean>
+
+	<bean id="redisSessionDAO"
+		class="com.rabbitframework.security.cache.redis.RedisSessionDAO">
+	</bean>
+
+	<bean id="securityRealm" class="com.yile.learning.oauth.security.SecurityRealm">
+		<property name="cacheKeyPrefix" value="realm_key:" />
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+		<property name="arguments" ref="securityManager" />
+	</bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	<bean id="securityFilter"
+		class="com.rabbitframework.security.spring.web.SecurityFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<!-- 没有权限或者失败后跳转的页面 -->
+		<property name="successUrl" value="/index" />
+		<property name="filterChainDefinitions">
+			<value>
+				/login=anon
+				/login/logout=logout
+				/user/**=anon
+				/oauth_authz/authorize=authc
+				/oauth_authz/**=anon
+				/**=authc
+			</value>
+		</property>
+	</bean>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>
