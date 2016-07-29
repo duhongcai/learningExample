@@ -17,17 +17,19 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.glassfish.jersey.server.mvc.Viewable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.rabbitframework.web.resources.RabbitContextResource;
 import com.yile.learning.model.Learning;
+import com.yile.learning.service.LearningService;
 
-@Component("learningResource")
 @Path("/")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class LearningResource extends RabbitContextResource {
+	@Autowired
+	private LearningService learningservice;
 
 	/**
 	 * get请求
@@ -38,7 +40,7 @@ public class LearningResource extends RabbitContextResource {
 	@Path("getUserName")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getUserName() {
-		return "justin";
+		return learningservice.getUserName();
 	}
 
 	@GET

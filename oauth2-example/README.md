@@ -40,8 +40,14 @@ OAuth2是在2006年底创建的下一代OAuth协议,是一个关于授权（auth
 
 * 授权模式请求:
 
-1、获取授权码:http://localhost:8080/oauth\_authz/authorize?response\_type=code&client_id=0f02598f-5414-11e6-8b1e-3e7189dda781&state=test&redirect\_uri=/oauth\_authz/clientcode
+	1、获取授权码:http://localhost:8080/oauth\_authz/authorize?response \_type=code&client_id=0f02598f-5414-11e6-8b1e-3e7189dda781&state=test&redirect\_uri=/oauth\_authz/clientcode
+	
+	2、客户端获取accessToken：http://localhost:8080/oauth\_authz/clientcode?state=test&code=8922193b64cab198560a171a054e552e
+	
+	3、测试:http://localhost:8080/user/getUserInfo?access_token=82387a8136ab2c7cbb9d30fce4528777
 
-2、客户端获取accessToken：http://localhost:8080/oauth\_authz/clientcode?state=test&code=8922193b64cab198560a171a054e552e
+* 简化模式(implicit grant type):
+	
+	1、获取授权码:http://localhost:8080/implicit/authorize?response\_type=token&client_id=0f02598f-5414-11e6-8b1e-3e7189dda781&state=test&redirect\_uri=/oauth\_authz/clientcode
 
-3、测试:http://localhost:8080/user/getUserInfo?access_token=82387a8136ab2c7cbb9d30fce4528777
+  

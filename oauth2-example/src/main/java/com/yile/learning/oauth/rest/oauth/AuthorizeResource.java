@@ -40,10 +40,7 @@ import org.glassfish.jersey.server.mvc.Viewable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.rabbitframework.commons.utils.JsonUtils;
 import com.rabbitframework.commons.utils.StringUtils;
@@ -55,10 +52,10 @@ import com.yile.learning.oauth.vo.ClientAccessTokenInfo;
 
 /**
  * oauth授权模式(authorization code)
+ * 是功能最完整、流程最严密的授权模式。它的特点就是通过客户端的后台服务器，与"服务提供商"的认证服务器进行互动。
  * 
  * @author justin.liang
  */
-@Component("authorizeResource")
 @Path("/oauth_authz")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class AuthorizeResource {
@@ -171,7 +168,7 @@ public class AuthorizeResource {
 			@QueryParam("state") @DefaultValue("") String state, @QueryParam("error") @DefaultValue("") String error,
 			@QueryParam("error_description") @DefaultValue("") String errorDescription) throws Exception {
 		String accessTokenurl = "http://localhost:8080/oauth_authz/accessToken";
-		String userInfoUrl = "http://localhost:8080/user/getUserInfo";
+//		String userInfoUrl = "http://localhost:8080/user/getUserInfo";
 		String redirectUrl = "http://localhost:8080/oauth_authz/clientcode";
 		String clientId = "0f02598f-5414-11e6-8b1e-3e7189dda781";
 		String clientSecret = "0f02598f-5414-11e6-8b1e-3e7189dda781";
