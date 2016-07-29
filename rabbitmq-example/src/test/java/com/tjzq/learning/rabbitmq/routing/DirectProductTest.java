@@ -8,7 +8,7 @@ import com.rabbitmq.client.Channel;
 import com.tjzq.learning.rabbitmq.AbstractTestCase;
 
 /**
- * 发布、订阅模式，发送端发送广播消息，多个接收端接收。 direct, topic, headers and fanout
+ *按路线发送接收:发送端按routing key发送消息，不同的接收端按不同的routing key接收消息
  * <p/>
  * direct:路由方式
  * 

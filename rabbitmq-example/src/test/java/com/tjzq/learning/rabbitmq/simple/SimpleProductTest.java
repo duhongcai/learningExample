@@ -1,11 +1,9 @@
 package com.tjzq.learning.rabbitmq.simple;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.easymock.internal.matchers.Find;
 import org.junit.Test;
 
 import com.rabbitmq.client.Channel;
