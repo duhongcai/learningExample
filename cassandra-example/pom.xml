@@ -1,47 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.yile.learning</groupId>
-		<artifactId>learning-example</artifactId>
-		<version>1.0</version>
-	</parent>
-	<artifactId>cassandra-example</artifactId>
-	<packaging>jar</packaging>
-	<properties>
-		<cassandra-all.version>3.3</cassandra-all.version>
-		<astyanax.version>3.9.0</astyanax.version>
-		<hector-core.version>1.1-4</hector-core.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.cassandra</groupId>
-			<artifactId>cassandra-all</artifactId>
-			<version>${cassandra-all.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.hectorclient</groupId>
-			<artifactId>hector-core</artifactId>
-			<version>${hector-core.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax-recipes</artifactId>
-			<version>${astyanax.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax-thrift</artifactId>
-			<version>${astyanax.version}</version>
-		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.netflix.astyanax</groupId>-->
-			<!--<artifactId>astyanax-contrib</artifactId>-->
-			<!--<version>${astyanax.version}</version>-->
-		<!--</dependency>-->
-	</dependencies>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.yile.learning</groupId>
+        <artifactId>learning-example</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>cassandra-example</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <cassandra-all.version>3.3</cassandra-all.version>
+        <astyanax.version>3.9.0</astyanax.version>
+        <hector-core.version>1.1-4</hector-core.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cassandra</groupId>
+            <artifactId>cassandra-all</artifactId>
+            <version>${cassandra-all.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hectorclient</groupId>
+            <artifactId>hector-core</artifactId>
+            <version>${hector-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-recipes</artifactId>
+            <version>${astyanax.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-thrift</artifactId>
+            <version>${astyanax.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>com.netflix.astyanax</groupId>-->
+        <!--<artifactId>astyanax-contrib</artifactId>-->
+        <!--<version>${astyanax.version}</version>-->
+        <!--</dependency>-->
+    </dependencies>
 </project>
