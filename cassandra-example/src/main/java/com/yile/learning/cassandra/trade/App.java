@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * 交易系统入口类
+ *
  * @author justin.liang
  */
 public class App {
@@ -24,10 +26,14 @@ public class App {
         }
     }
 
+    public void init() {
+
+    }
+
     public static void main(String[] args) {
         App app = new App();
         app.before();
-
+        app.init();
         app.after();
     }
 

@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * cassandra服务,使用hector包对cassandra操作进行封装
+ */
 public class CassandraService {
     private static final Logger logger = LogManager.getLogger(CassandraService.class);
     private CassandraHostConfigurator cassandraHostConfigurator;
@@ -127,17 +130,43 @@ public class CassandraService {
     }
 
     /**
+     * 根据keyspace名称获取{@link KeyspaceDefinition}
+     *
+     * @param keyspace
+     * @return
+     */
+    public KeyspaceDefinition getKeyspaceDef(String keyspace) {
+        KeyspaceDefinition ksDef = cluster.describeKeyspace(keyspace);
+        return ksDef;
+    }
+
+    /**
+     * 判断keyspace是否创建
+     *
+     * @param keyspace
+     * @return
+     */
+    public boolean keyspaceExist(String keyspace) {
+        KeyspaceDefinition ksDef = cluster.describeKeyspace(keyspace);
+        if (ksDef == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 判断column Family是否创建
      *
      * @param keyspace
      * @param cfName
      * @return
      */
-    public boolean cfExists(String keyspace, String cfName) {
-        KeyspaceDefinition ksDef = cluster.describeKeyspace(keyspace);
+    public boolean cfExist(String keyspace, String cfName) {
+        KeyspaceDefinition ksDef = getKeyspaceDef(keyspace);
         if (ksDef == null) {
             return false;
         }
+
         for (ColumnFamilyDefinition cfDef : ksDef.getCfDefs()) {
             if (cfDef.getName().equals(cfName)) {
                 return true;

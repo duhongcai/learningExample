@@ -5,15 +5,11 @@ import com.yile.learning.cassandra.service.CassandraService;
 /**
  * @author justin.liang
  */
-public class DataBaseHandler {
+public class ProductHandler {
     private CassandraService cassandraService;
 
-    public DataBaseHandler(CassandraService cassandraService) {
+    public ProductHandler(CassandraService cassandraService) {
         this.cassandraService = cassandraService;
     }
 
-    public void createKeyspace(String keyspace) {
-        cassandraService.createKeyspace(keyspace);
-    }
-    
 }

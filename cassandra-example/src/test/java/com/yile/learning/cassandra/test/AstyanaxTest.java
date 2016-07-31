@@ -20,7 +20,6 @@ import com.netflix.astyanax.model.ColumnList;
 import com.netflix.astyanax.serializers.IntegerSerializer;
 import com.netflix.astyanax.serializers.StringSerializer;
 import com.netflix.astyanax.thrift.ThriftFamilyFactory;
-import com.yile.learning.cassandra.AbstractCassandraCase;
 
 public class AstyanaxTest extends AbstractCassandraCase {
 	private static final Logger logger = LogManager.getLogger(AstyanaxTest.class);

@@ -2,8 +2,8 @@ package com.yile.learning.model;
 
 import java.io.Serializable;
 
-import com.rabbitframework.jadb.annontations.Column;
-import com.rabbitframework.jadb.annontations.Table;
+import com.rabbitframework.dbase.annontations.Column;
+import com.rabbitframework.dbase.annontations.Table;
 
 @Table
 public class UserInfo implements Serializable {

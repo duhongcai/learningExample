@@ -1,4 +1,4 @@
-package com.yile.learning.cassandra;
+package com.yile.learning.cassandra.test;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;

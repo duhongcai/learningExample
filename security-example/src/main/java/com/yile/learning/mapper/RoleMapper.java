@@ -2,8 +2,8 @@ package com.yile.learning.mapper;
 
 import java.util.List;
 
-import com.rabbitframework.jadb.annontations.Mapper;
-import com.rabbitframework.jadb.annontations.Select;
+import com.rabbitframework.dbase.annontations.Mapper;
+import com.rabbitframework.dbase.annontations.Select;
 import com.yile.learning.model.UserRole;
 
 @Mapper

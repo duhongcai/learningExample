@@ -1,5 +1,7 @@
 package com.yile.learning.oauth.model;
-import com.rabbitframework.jadb.annontations.*;
+import com.rabbitframework.dbase.annontations.Column;
+import com.rabbitframework.dbase.annontations.ID;
+import com.rabbitframework.dbase.annontations.Table;
 
 /**
 * This class corresponds to the database table oauth_client

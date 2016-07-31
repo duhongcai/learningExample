@@ -30,16 +30,16 @@
 		<property name="filters" value="${filters}" />
 	</bean>
 
-	<bean id="dataSourcebean" class="com.rabbitframework.jadb.dataaccess.DataSourceBean">
+	<bean id="dataSourcebean" class="com.rabbitframework.dbase.dataaccess.DataSourceBean">
 		<property name="dialect" value="mysql" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="dataSourceFactory"
-		class="com.rabbitframework.jadb.dataaccess.datasource.SimpleDataSourceFactory" />
+		class="com.rabbitframework.dbase.dataaccess.datasource.SimpleDataSourceFactory" />
 
-	<bean id="rabbitJadbFactory" class="com.rabbitframework.jadb.spring.RabbitJadbFactoryBean">
-		<!-- <property name="configLocation" value="classpath:jade-config.xml"></property> -->
+	<bean id="rabbitDbaseFactory" class="com.rabbitframework.dbase.spring.RabbitDbaseFactoryBean">
+		<!-- <property name="configLocation" value="classpath:dbase-config.xml"></property> -->
 		<property name="entityPackages" value="com.yile.**.model"></property>
 		<property name="mapperPackages" value="com.yile.**.mapper"></property>
 		<property name="dataSourceFactory" ref="dataSourceFactory"></property>
@@ -50,9 +50,9 @@
 		</property>
 	</bean>
 
-	<bean class="com.rabbitframework.jadb.spring.MapperScannerConfigurer">
+	<bean class="com.rabbitframework.dbase.spring.MapperScannerConfigurer">
 		<property name="basePackage" value="com.yile.**.mapper" />
-		<property name="rabbitJadbFactoryBeanName" value="rabbitJadbFactory" />
+		<property name="rabbitDbaseFactoryBeanName" value="rabbitDbaseFactory" />
 	</bean>
 
 	<bean name="transactionManager"
@@ -62,11 +62,4 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager"
 		proxy-target-class="true" />
-	<!-- <aop:config> <aop:pointcut id="jdbcServiceMethod" expression="execution(* 
-		com.yile.*..service.*Service.*(..))" /> <aop:advisor pointcut-ref="jdbcServiceMethod" 
-		advice-ref="txAdvice" /> </aop:config> <tx:advice id="txAdvice" transaction-manager="transactionManager"> 
-		<tx:attributes> <tx:method name="search*" read-only="true" /> <tx:method 
-		name="find*" read-only="true" /> <tx:method name="get*" read-only="true" 
-		/> <tx:method name="select*" read-only="true" /> <tx:method name="*" read-only="false" 
-		rollback-for="ServiceException,Exception" /> </tx:attributes> </tx:advice> -->
 </beans>

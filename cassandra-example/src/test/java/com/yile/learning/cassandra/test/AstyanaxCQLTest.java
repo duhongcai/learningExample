@@ -22,7 +22,6 @@ import com.netflix.astyanax.model.Row;
 import com.netflix.astyanax.serializers.IntegerSerializer;
 import com.netflix.astyanax.serializers.StringSerializer;
 import com.netflix.astyanax.thrift.ThriftFamilyFactory;
-import com.yile.learning.cassandra.AbstractCassandraCase;
 
 public class AstyanaxCQLTest extends AbstractCassandraCase {
 	private static final Logger logger = LoggerFactory.getLogger(AstyanaxCQLTest.class);

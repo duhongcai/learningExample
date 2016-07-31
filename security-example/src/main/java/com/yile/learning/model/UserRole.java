@@ -1,7 +1,7 @@
 package com.yile.learning.model;
 
-import com.rabbitframework.jadb.annontations.Column;
-import com.rabbitframework.jadb.annontations.Table;
+import com.rabbitframework.dbase.annontations.Column;
+import com.rabbitframework.dbase.annontations.Table;
 
 @Table
 public class UserRole implements java.io.Serializable {
