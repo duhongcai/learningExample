@@ -42,7 +42,6 @@ public class CassandraTest extends AbstractCassandraCase {
 		} catch (TTransportException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Override
