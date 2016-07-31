@@ -6,10 +6,10 @@ import com.yile.learning.cassandra.service.CassandraService;
 /**
  * @author justin.liang
  */
-public class CommentTHandler {
+public class CommentHandler {
     private CassandraService cassandraService;
 
-    public CommentTHandler(CassandraService cassandraService) {
+    public CommentHandler(CassandraService cassandraService) {
         this.cassandraService = cassandraService;
     }
 }
