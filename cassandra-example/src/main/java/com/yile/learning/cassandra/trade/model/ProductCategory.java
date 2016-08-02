@@ -13,6 +13,7 @@ package com.yile.learning.cassandra.trade.model;
  * @author justin.liang
  */
 public class ProductCategory {
+    public static final String COLUMN_FAMILY = "ProductCategory";
     private String name;
     private String value;
 

@@ -1,6 +1,8 @@
 package com.yile.learning.cassandra.service;
 
+import me.prettyprint.cassandra.service.FailoverPolicy;
 import me.prettyprint.cassandra.service.ThriftKsDef;
+import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
@@ -34,17 +36,24 @@ public class CassandraService {
     private Cluster cluster;
     private ConfigurableConsistencyLevel configurableConsistencyLevel;
     private LockManager lockManager;
+    private Map<String, String> accessMap = new HashMap<String, String>(2);
+    private String keyspace;
 
-
-    public CassandraService(String clusterName, String cassandraUrl) {
+    public CassandraService(String clusterName, String cassandraUrl, String username, String password) {
         this.clusterName = clusterName;
         this.cassandraUrl = cassandraUrl;
+        username = username == null ? "" : username;
+        password = password == null ? "" : password;
+        accessMap.put("username", username);
+        accessMap.put("password", password);
+        this.keyspace = keyspace;
         configurableConsistencyLevel = new ConfigurableConsistencyLevel();
         configurableConsistencyLevel.setDefaultReadConsistencyLevel(HConsistencyLevel.LOCAL_QUORUM);
         configurableConsistencyLevel.setDefaultWriteConsistencyLevel(HConsistencyLevel.LOCAL_QUORUM);
         initCassandraHostConfigurator();
         initCassandraCluster();
         initLock();
+
     }
 
     public void initCassandraHostConfigurator() {
@@ -64,9 +73,10 @@ public class CassandraService {
     }
 
     public void initLock() {
-        lockManager = new HectorLockManagerImpl(cluster, Constants.KEYLOCKSPACENAME);
-        ((HectorLockManagerImpl) lockManager).setConsistencyLevelPolicy(configurableConsistencyLevel);
-        ((HectorLockManagerImpl) lockManager).init();
+        // TODO: 需要创建所的keyspace,在此注释掉锁管理的创建
+//        lockManager = new HectorLockManagerImpl(cluster, Constants.KEYLOCKSPACENAME);
+//        ((HectorLockManagerImpl) lockManager).setConsistencyLevelPolicy(configurableConsistencyLevel);
+//        ((HectorLockManagerImpl) lockManager).init();
     }
 
     public void setLockManager(LockManager lockManager) {
@@ -87,7 +97,7 @@ public class CassandraService {
      *
      * @throws Exception
      */
-    public void destory() throws Exception {
+    public void destroy() throws Exception {
         if (cluster != null) {
             HConnectionManager connectionManager = cluster.getConnectionManager();
             if (connectionManager != null) {
@@ -98,6 +108,7 @@ public class CassandraService {
         cluster = null;
     }
 
+
     /**
      * 创建keyspace
      *
@@ -106,6 +117,13 @@ public class CassandraService {
     public void createKeyspace(String keyspace) {
         createKeyspace(keyspace, "org.apache.cassandra.locator.SimpleStrategy",
                 1, new ArrayList<ColumnFamilyDefinition>(), null);
+    }
+
+
+    public Keyspace getKeyspace(String keyspace) {
+        Keyspace keyspace1 = HFactory.createKeyspace(keyspace, cluster, configurableConsistencyLevel,
+                FailoverPolicy.ON_FAIL_TRY_ALL_AVAILABLE, accessMap);
+        return keyspace1;
     }
 
     /**
@@ -120,7 +138,8 @@ public class CassandraService {
     private void createKeyspace(String keyspace, String strategy, int replication,
                                 List<ColumnFamilyDefinition> cfDefs, Map<String, String> strategyOption) {
         if (cluster.describeKeyspace(keyspace) != null) {
-            cluster.dropKeyspace(keyspace);
+            // cluster.dropKeyspace(keyspace);
+            return;
         }
         ThriftKsDef keyspaceDefinition = (ThriftKsDef) HFactory.createKeyspaceDefinition(keyspace,
                 strategy, replication, cfDefs);
