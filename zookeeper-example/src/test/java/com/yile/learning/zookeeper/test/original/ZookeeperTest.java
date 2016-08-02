@@ -8,7 +8,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.junit.Test;
-import com.yile.learning.zookeeper.AbstractTest;
+import com.yile.learning.zookeeper.test.AbstractTest;
 
 public class ZookeeperTest extends AbstractTest {
 	private static final Logger logger = LogManager.getLogger(ZookeeperTest.class);

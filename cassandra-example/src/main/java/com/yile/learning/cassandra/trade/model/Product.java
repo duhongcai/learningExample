@@ -18,14 +18,20 @@ import java.util.UUID;
  * 
  * @author justin.liang
  */
+
 public class Product {
 	public static final String COLUMN_FAMILY = "Product";
 	
 	private UUID uuid;
+
 	private String name;
+
 	private String sellerUserName;
+
 	private String desc;
+
 	private double price;
+
 	public UUID getUuid() {
 		return uuid;
 	}

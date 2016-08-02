@@ -19,6 +19,7 @@ import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.HConsistencyLevel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +131,42 @@ public class CassandraService {
     }
 
     /**
+     * 创建列家族
+     *
+     * @param keyspace
+     * @param cfDef
+     */
+    public void createColumnFamily(String keyspace, ColumnFamilyDefinition cfDef) {
+        if (!keyspaceExist(keyspace)) {
+            createKeyspace(keyspace);
+        }
+
+        if (!cfExist(keyspace, cfDef.getName())) {
+            cfDef.setReadRepairChance(0.1d);
+            cfDef.setCompactionStrategy("LeveledCompactionStrategy");
+            Map<String, String> options = new HashMap<String, String>();
+            options.put("sstable_size_in_mb", "512");
+            cfDef.setCompactionStrategyOptions(options);
+            cluster.addColumnFamily(cfDef, true);
+            logger.info("Create column family {} in keyspace {}", cfDef.getName(), keyspace);
+        } else {
+            logger.info("{} already created", cfDef.getName());
+        }
+    }
+
+    /**
+     * 创建多个列家族
+     *
+     * @param keyspace
+     * @param cfDefs
+     */
+    public void createColumnFamilies(String keyspace, List<ColumnFamilyDefinition> cfDefs) {
+        for (ColumnFamilyDefinition cfDef : cfDefs) {
+            createColumnFamily(keyspace, cfDef);
+        }
+    }
+
+    /**
      * 根据keyspace名称获取{@link KeyspaceDefinition}
      *
      * @param keyspace
@@ -174,4 +211,6 @@ public class CassandraService {
         }
         return false;
     }
+
+
 }

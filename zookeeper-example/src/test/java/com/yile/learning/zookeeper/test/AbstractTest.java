@@ -1,7 +1,8 @@
-package com.yile.learning.zookeeper;
+package com.yile.learning.zookeeper.test;
 
 import java.io.IOException;
 
+import com.yile.learning.zookeeper.TestWatcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.zookeeper.ZooKeeper;

@@ -32,115 +32,116 @@ import me.prettyprint.hector.api.query.QueryResult;
 import me.prettyprint.hector.api.query.RangeSlicesQuery;
 
 public class HectorTest extends AbstractCassandraCase {
-	private static final Logger logger = LogManager.getLogger(HectorTest.class);
-	// private static final String CF_SUPER = "SuperCf";
-	private static StringSerializer stringSerializer = StringSerializer.get();
-	private Cluster cluster;
+    private static final Logger logger = LogManager.getLogger(HectorTest.class);
+    // private static final String CF_SUPER = "SuperCf";
+    private static StringSerializer stringSerializer = StringSerializer.get();
+    private Cluster cluster;
 
-	@Override
-	public void before() throws RuntimeException {
-		cluster = HFactory.getOrCreateCluster("Test Cluster", "192.168.2.113:9160");
-	}
+    @Override
+    public void before() throws RuntimeException {
+        cluster = HFactory.getOrCreateCluster("Test Cluster", "192.168.2.113:9160");
+    }
 
-	@Override
-	public void after() throws RuntimeException {
-		cluster.getConnectionManager().shutdown();
-	}
+    @Override
+    public void after() throws RuntimeException {
+        cluster.getConnectionManager().shutdown();
+    }
 
-	public void getKeyspaces() {
-		String clusterName = cluster.describeClusterName();
-		logger.info("clusterName:" + clusterName);
-		List<KeyspaceDefinition> keyspaces = cluster.describeKeyspaces();
-		for (KeyspaceDefinition kd : keyspaces) {
-			if (kd.getName().equals(DYN_KEYSPACE)) {
-				logger.info("Name: " + kd.getName());
-				logger.info("RF: " + kd.getReplicationFactor());
-				logger.info("strategy class: " + kd.getStrategyClass());
-				logger.info("---------cfDefs--------------");
-				List<ColumnFamilyDefinition> cfDefs = kd.getCfDefs();
-				for (ColumnFamilyDefinition def : cfDefs) {
-					logger.info("  CF Type: " + def.getColumnType());
-					logger.info("  CF Name: " + def.getName());
-					logger.info("  CF Metadata: " + def.getColumnMetadata());
-				}
-			}
-		}
-	}
+    public void getKeyspaces() {
+        String clusterName = cluster.describeClusterName();
+        logger.info("clusterName:" + clusterName);
+        List<KeyspaceDefinition> keyspaces = cluster.describeKeyspaces();
+        for (KeyspaceDefinition kd : keyspaces) {
+            if (kd.getName().equals(DYN_KEYSPACE)) {
+                logger.info("Name: " + kd.getName());
+                logger.info("RF: " + kd.getReplicationFactor());
+                logger.info("strategy class: " + kd.getStrategyClass());
+                logger.info("---------cfDefs--------------");
+                List<ColumnFamilyDefinition> cfDefs = kd.getCfDefs();
+                for (ColumnFamilyDefinition def : cfDefs) {
+                    logger.info("  CF Type: " + def.getColumnType());
+                    logger.info("  CF Name: " + def.getName());
+                    logger.info("  CF Metadata: " + def.getColumnMetadata());
+                }
+            }
+        }
+    }
 
-	public void createSchema() {
-		if (cluster.describeKeyspace(DYN_KEYSPACE) != null) {
-			cluster.dropKeyspace(DYN_KEYSPACE);
-		}
-		BasicColumnDefinition columnDefinition = new BasicColumnDefinition();
-		columnDefinition.setName(stringSerializer.toByteBuffer("username"));
-		columnDefinition.setIndexName("username_idx");
-		columnDefinition.setIndexType(ColumnIndexType.KEYS);
-		columnDefinition.setValidationClass(ComparatorType.UTF8TYPE.getClassName());
-		BasicColumnFamilyDefinition familyDefinition = new BasicColumnFamilyDefinition();
-		familyDefinition.setKeyspaceName(DYN_KEYSPACE);
-		familyDefinition.setName(DYN_CF);
-		familyDefinition.addColumnDefinition(columnDefinition);
-		ColumnFamilyDefinition cfDefStandard = new ThriftCfDef(familyDefinition);
-		KeyspaceDefinition keyspaceDefinition = HFactory.createKeyspaceDefinition(DYN_KEYSPACE,
-				"org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cfDefStandard));
-		cluster.addKeyspace(keyspaceDefinition);
-	}
+    public void createSchema() {
+        if (cluster.describeKeyspace(DYN_KEYSPACE) != null) {
+            cluster.dropKeyspace(DYN_KEYSPACE);
+        }
+        BasicColumnDefinition columnDefinition = new BasicColumnDefinition();
+        columnDefinition.setName(stringSerializer.toByteBuffer("username"));
+        columnDefinition.setIndexName("username_idx");
+        columnDefinition.setIndexType(ColumnIndexType.KEYS);
+        columnDefinition.setValidationClass(ComparatorType.UTF8TYPE.getClassName());
 
-	public void insertData() {
-		Keyspace keyspaceOperator = HFactory.createKeyspace(DYN_KEYSPACE, cluster);
+        BasicColumnFamilyDefinition familyDefinition = new BasicColumnFamilyDefinition();
+        familyDefinition.setKeyspaceName(DYN_KEYSPACE);
+        familyDefinition.setName(DYN_CF);
+        familyDefinition.addColumnDefinition(columnDefinition);
+        ColumnFamilyDefinition cfDefStandard = new ThriftCfDef(familyDefinition);
+        KeyspaceDefinition keyspaceDefinition = HFactory.createKeyspaceDefinition(DYN_KEYSPACE,
+                "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cfDefStandard));
+        cluster.addKeyspace(keyspaceDefinition);
+    }
 
-		Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, stringSerializer);
-		mutator.addInsertion("username", DYN_CF, HFactory.createStringColumn("username1", "leungjy"));
-		mutator.addInsertion("username", DYN_CF, HFactory.createStringColumn("username2", "leungjy"));
-		mutator.execute();
-	}
+    public void insertData() {
+        Keyspace keyspaceOperator = HFactory.createKeyspace(DYN_KEYSPACE, cluster);
 
-	public void query() {
-		Keyspace keyspaceOperator = HFactory.createKeyspace(DYN_KEYSPACE, cluster);
-		RangeSlicesQuery<String, String, String> rangeSlicesQuery = HFactory.createRangeSlicesQuery(keyspaceOperator,
-				stringSerializer, stringSerializer, stringSerializer);
-		rangeSlicesQuery.setColumnFamily(DYN_CF);
-		rangeSlicesQuery.setKeys("", "");
-		rangeSlicesQuery.setRange("", "", false, 3);
+        Mutator<String> mutator = HFactory.createMutator(keyspaceOperator, stringSerializer);
+        mutator.addInsertion("username", DYN_CF, HFactory.createStringColumn("username1", "leungjy"));
+        mutator.addInsertion("username", DYN_CF, HFactory.createStringColumn("username2", "leungjy"));
+        mutator.execute();
+    }
 
-		rangeSlicesQuery.setRowCount(10);
-		QueryResult<OrderedRows<String, String, String>> result = rangeSlicesQuery.execute();
+    public void query() {
+        Keyspace keyspaceOperator = HFactory.createKeyspace(DYN_KEYSPACE, cluster);
+        RangeSlicesQuery<String, String, String> rangeSlicesQuery = HFactory.createRangeSlicesQuery(keyspaceOperator,
+                stringSerializer, stringSerializer, stringSerializer);
+        rangeSlicesQuery.setColumnFamily(DYN_CF);
+        rangeSlicesQuery.setKeys("", "");
+        rangeSlicesQuery.setRange("", "", false, 3);
 
-		OrderedRows<String, String, String> orderRows = result.get();
-		Iterator<Row<String, String, String>> it = orderRows.iterator();
-		while (it.hasNext()) {
-			Row<String, String, String> row = it.next();
-			String key = row.getKey();
-			logger.info("key:" + key);
-			ColumnSlice<String, String> columnSlice = row.getColumnSlice();
-			List<HColumn<String, String>> lists = columnSlice.getColumns();
-			for (HColumn<String, String> hColumn : lists) {
-				logger.info("columnName:" + hColumn.getName() + ",columnValue:" + hColumn.getValue());
-			}
-		}
+        rangeSlicesQuery.setRowCount(10);
+        QueryResult<OrderedRows<String, String, String>> result = rangeSlicesQuery.execute();
 
-		ColumnQuery<String, String, String> columnQuery = HFactory.createStringColumnQuery(keyspaceOperator);
-		columnQuery.setColumnFamily(DYN_CF).setKey("username").setName("username1");
-		QueryResult<HColumn<String, String>> colResult = columnQuery.execute();
-		logger.info("Execution time: " + colResult.getExecutionTimeMicro());
-		logger.info("CassandraHost used: " + colResult.getHostUsed());
-		logger.info("Query Execute: " + colResult.get());
-	}
+        OrderedRows<String, String, String> orderRows = result.get();
+        Iterator<Row<String, String, String>> it = orderRows.iterator();
+        while (it.hasNext()) {
+            Row<String, String, String> row = it.next();
+            String key = row.getKey();
+            logger.info("key:" + key);
+            ColumnSlice<String, String> columnSlice = row.getColumnSlice();
+            List<HColumn<String, String>> lists = columnSlice.getColumns();
+            for (HColumn<String, String> hColumn : lists) {
+                logger.info("columnName:" + hColumn.getName() + ",columnValue:" + hColumn.getValue());
+            }
+        }
 
-	/*
-	 * 创建keyspace
-	 */
-	public void createKeyspaceDefinition() {
-		KeyspaceDefinition keyspaceDefinition = HFactory.createKeyspaceDefinition(DYN_KEYSPACE,
-				"org.apache.cassandra.locator.SimpleStrategy", 1, new ArrayList<ColumnFamilyDefinition>());
-		cluster.addKeyspace(keyspaceDefinition);
-	}
+        ColumnQuery<String, String, String> columnQuery = HFactory.createStringColumnQuery(keyspaceOperator);
+        columnQuery.setColumnFamily(DYN_CF).setKey("username").setName("username1");
+        QueryResult<HColumn<String, String>> colResult = columnQuery.execute();
+        logger.info("Execution time: " + colResult.getExecutionTimeMicro());
+        logger.info("CassandraHost used: " + colResult.getHostUsed());
+        logger.info("Query Execute: " + colResult.get());
+    }
 
-	@Test
-	public void testMain() {
-		// createSchema();
-		// getKeyspaces();
-		// insertData();
-		// query();
-	}
+    /*
+     * 创建keyspace
+     */
+    public void createKeyspaceDefinition() {
+        KeyspaceDefinition keyspaceDefinition = HFactory.createKeyspaceDefinition(DYN_KEYSPACE,
+                "org.apache.cassandra.locator.SimpleStrategy", 1, new ArrayList<ColumnFamilyDefinition>());
+        cluster.addKeyspace(keyspaceDefinition);
+    }
+
+    @Test
+    public void testMain() {
+        // createSchema();
+        // getKeyspaces();
+        // insertData();
+        // query();
+    }
 }
