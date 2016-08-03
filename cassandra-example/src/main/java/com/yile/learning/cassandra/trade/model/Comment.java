@@ -6,48 +6,59 @@ import java.util.UUID;
  * 用于保存产品的评论信息,使用TimeUUID作为ColumnFamily的key，实际存储数据如:
  * <p/>
  * <code>
- * 	Comment = { //Super ColumnFamily
- * 		8177ec99-b9df-11df-94a6-1b9323c915f2:{
- * 			name:"9127ec99-b9df-11df-94a6-1b9323c915f2",
- * 			value {
- * 				{name:"content",value:"容易掉颜色",timestamp:123456789}
- * 				{name:"sellerUserName",value:"lily",timestamp:123456789}
- * 			}
- * 		}		
- * 	}
+ * Comment = { //Super ColumnFamily
+ * 8177ec99-b9df-11df-94a6-1b9323c915f2:{
+ * name:"9127ec99-b9df-11df-94a6-1b9323c915f2",
+ * value {
+ * {name:"content",value:"容易掉颜色",timestamp:123456789}
+ * {name:"commentUserName",value:"lily",timestamp:123456789}
+ * }
+ * }
+ * }
  * </code>
- * 
+ *
  * @author justin.liang
  */
 public class Comment {
-	public static final String COLUMN_FAMILY = "Comment";
+    public static final String COLUMN_FAMILY = "Comment";
 
-	private UUID uuid;
-	private String content;
+    private UUID uuid;
 
-	private String commentUserName;
+    private UUID name;
 
-	public UUID getUuid() {
-		return uuid;
-	}
+    private String content;
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
-	}
+    private String commentUserName;
 
-	public String getContent() {
-		return content;
-	}
+    public void setName(UUID name) {
+        this.name = name;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public UUID getName() {
+        return name;
+    }
 
-	public String getCommentUserName() {
-		return commentUserName;
-	}
+    public UUID getUuid() {
+        return uuid;
+    }
 
-	public void setCommentUserName(String commentUserName) {
-		this.commentUserName = commentUserName;
-	}
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCommentUserName() {
+        return commentUserName;
+    }
+
+    public void setCommentUserName(String commentUserName) {
+        this.commentUserName = commentUserName;
+    }
 }

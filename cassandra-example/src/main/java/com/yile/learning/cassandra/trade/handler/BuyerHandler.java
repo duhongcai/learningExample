@@ -5,16 +5,18 @@ import com.yile.learning.cassandra.service.CassandraService;
 import com.yile.learning.cassandra.trade.model.Buyer;
 import com.yile.learning.cassandra.utils.Constants;
 import me.prettyprint.hector.api.Keyspace;
-import me.prettyprint.hector.api.beans.ColumnSlice;
-import me.prettyprint.hector.api.beans.HColumn;
+import me.prettyprint.hector.api.beans.*;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
+import me.prettyprint.hector.api.query.MultigetSliceQuery;
 import me.prettyprint.hector.api.query.QueryResult;
+import me.prettyprint.hector.api.query.RangeSlicesQuery;
 import me.prettyprint.hector.api.query.SliceQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.ByteBuffer;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.rabbitframework.commons.utils.CodecUtils.byteBuffer;
@@ -60,6 +62,27 @@ public class BuyerHandler {
             String name = hColumn.getName();
             String value = hColumn.getValue();
             logger.debug("name:{},value:{}", name, value);
+        }
+    }
+
+    public void queryAll() {
+        Keyspace keyspace = cassandraService.getKeyspace(Constants.KEYSPACENAME);
+        RangeSlicesQuery<String, String, String> sliceQuery = HFactory.createRangeSlicesQuery(keyspace, se, se, se);
+//        sliceQuery.setKeys("","");
+        sliceQuery.setRange(null, null, false, 100);
+        sliceQuery.setColumnFamily(Buyer.COLUMN_FAMILY);
+        QueryResult<OrderedRows<String, String, String>> result = sliceQuery.execute();
+        Rows<String, String, String> rows = result.get();
+        Iterator<Row<String, String, String>> iterator = rows.iterator();
+        while (iterator.hasNext()) {
+            Row<String, String, String> row = iterator.next();
+            String key = row.getKey();
+            logger.info("key:" + key);
+            ColumnSlice<String, String> columnSlice = row.getColumnSlice();
+            List<HColumn<String, String>> lists = columnSlice.getColumns();
+            for (HColumn<String, String> hColumn : lists) {
+                logger.info("columnName:" + hColumn.getName() + ",columnValue:" + hColumn.getValue());
+            }
         }
     }
 

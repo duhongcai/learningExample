@@ -1,8 +1,11 @@
 package com.yile.learning.cassandra.trade;
 
+import com.rabbitframework.commons.utils.UUIDUtils;
 import com.yile.learning.cassandra.service.CassandraService;
 import com.yile.learning.cassandra.trade.handler.*;
 import com.yile.learning.cassandra.trade.model.Buyer;
+import com.yile.learning.cassandra.trade.model.Comment;
+import com.yile.learning.cassandra.trade.model.Product;
 import com.yile.learning.cassandra.utils.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,18 +41,64 @@ public class App {
 
     public void insert() {
 //        insertBuyer();  //初始化插入买家信息
+//        insertProduct();//初始化插入产品信息
+//        insertComment();//初始化评论信息
     }
 
     public void query() {
-        queryBuyer();
+//        queryBuyer();
+//        queryProduct();
+        queryComment();
     }
 
     public void del() {
-//        buyerHandler.delByKey("zhangsan");
+//        delBuyer();
+    }
+
+    private void delBuyer() {
+        buyerHandler.delByKey("zhangsan");
+    }
+
+
+    private void queryComment() {
+        commentHandler.queryAll();
+    }
+
+    private void queryProduct() {
+        productHandler.queryAll();
     }
 
     private void queryBuyer() {
-        buyerHandler.queryByKey("zhangsan");
+//        buyerHandler.queryByKey("zhangsan");
+        buyerHandler.queryAll();
+    }
+
+    private void insertComment() {
+        Comment comment = new Comment();
+        comment.setUuid(UUIDUtils.getTimeUUID());
+        comment.setName(UUIDUtils.getTimeUUID());
+        comment.setCommentUserName("lili");
+        comment.setContent("好啊!");
+        commentHandler.insert(comment);
+    }
+
+
+    private void insertProduct() {
+        Product product = new Product();
+        product.setUuid(UUIDUtils.getTimeUUID());
+        product.setName("足球");
+        product.setDesc("足球描述");
+        product.setPrice(12.5d);
+        product.setSellerUserName("lili");
+
+        Product product1 = new Product();
+        product1.setUuid(UUIDUtils.getTimeUUID());
+        product1.setName("蓝球");
+        product1.setDesc("蓝球描述");
+        product1.setPrice(12.5d);
+        product1.setSellerUserName("lili");
+        productHandler.insert(product);
+        productHandler.insert(product1);
     }
 
     private void insertBuyer() {
