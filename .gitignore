@@ -3,5 +3,6 @@
 .project
 target/
 .classpath
+*.log
 .settings/
 .DS_Store
