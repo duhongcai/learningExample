@@ -1,5 +1,9 @@
 package com.generator.example;
 
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Map;
+
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -13,7 +17,9 @@ public class ClassTemplateLoaderTest {
 		Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
 		ClassTemplateLoader ctl = new ClassTemplateLoader(ClassTemplateLoaderTest.class, "/template");
 		configuration.setTemplateLoader(ctl);
-		Template template = configuration.getTemplate("model.ftl");
-		System.out.println("template:" + template);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("packageName", "com.generator.example");
+		Template template = configuration.getTemplate("test.ftl");
+		template.process(params, new OutputStreamWriter(System.out));
 	}
 }
