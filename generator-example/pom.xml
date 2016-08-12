@@ -8,17 +8,12 @@
 	</parent>
 	<artifactId>generator-example</artifactId>
 	<properties>
-		<mysql.version>5.1.36</mysql.version>
 		<java.version>1.7</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.rabbitframework</groupId>
 			<artifactId>rabbitframework-generator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
