@@ -47,6 +47,7 @@
 			<param-name>jersey.config.server.provider.classnames</param-name>
 			<param-value>
                 org.glassfish.jersey.server.mvc.jsp.JspMvcFeature,
+                com.rabbitframework.web.mvc.freemarker.FreemarkerMvcFeature,
                 org.glassfish.jersey.media.multipart.MultiPartFeature
             </param-value>
 		</init-param>
@@ -54,6 +55,15 @@
 			<param-name>jersey.config.server.mvc.templateBasePath.jsp</param-name>
 			<param-value>/WEB-INF/jsp</param-value>
 		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.mvc.templateBasePath.freemarker</param-name>
+			<param-value>/WEB-INF/freemarker</param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.mvc.templateBasePath.freemarker.extensions</param-name>
+			<param-value>html,ftl</param-value>
+		</init-param>
+
 		<init-param>
 			<param-name>jersey.config.server.wadl.disableWadl</param-name>
 			<param-value>true</param-value>
@@ -79,7 +89,7 @@
 		<error-code>401</error-code>
 		<location>/error</location>
 	</error-page>
-	
+
 	<error-page>
 		<error-code>500</error-code>
 		<location>/error</location>

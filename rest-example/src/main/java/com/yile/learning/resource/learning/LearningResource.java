@@ -1,6 +1,10 @@
 package com.yile.learning.resource.learning;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BeanParam;
@@ -112,5 +116,30 @@ public class LearningResource extends RabbitContextResource {
 	@Path("error")
 	public Viewable error() {
 		return new Viewable("/error/401.jsp", null);
+	}
+
+	@GET
+	@Path("freemarkerHtml")
+	@Produces(MediaType.TEXT_HTML)
+	public Viewable freemarkerHtml() {
+		return getFreemarker("/hello.html");
+	}
+
+	@GET
+	@Path("freemarkerFtl")
+	@Produces(MediaType.TEXT_HTML)
+	public Viewable freemarkerFtl() {
+		return getFreemarker("/hello.ftl");
+	}
+
+	private Viewable getFreemarker(String path) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<String> lstValue = new ArrayList<String>();
+		lstValue.add("item1");
+		lstValue.add("item2");
+		lstValue.add("item3");
+		params.put("user", "Pavel");
+		params.put("items", lstValue);
+		return new Viewable(path, params);
 	}
 }
