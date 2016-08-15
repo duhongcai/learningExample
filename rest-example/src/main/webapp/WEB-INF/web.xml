@@ -63,7 +63,10 @@
 			<param-name>jersey.config.server.mvc.templateBasePath.freemarker.extensions</param-name>
 			<param-value>html,ftl</param-value>
 		</init-param>
-
+		<init-param>
+			<param-name>jersey.config.servlet.filter.forwardOn404</param-name>
+			<param-value>true</param-value>
+		</init-param>
 		<init-param>
 			<param-name>jersey.config.server.wadl.disableWadl</param-name>
 			<param-value>true</param-value>
