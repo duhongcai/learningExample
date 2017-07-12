@@ -12,7 +12,7 @@ public class JedisTest {
 
 	@Before
 	public void before() {
-		jedis = new Jedis("192.168.99.254", 6379);
+		jedis = new Jedis("127.0.0.1", 6379);
 		jedis.auth("chief");
 	}
 

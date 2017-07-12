@@ -25,8 +25,8 @@ public class ShardedJedisPoolTest {
 	@Before
 	public void before() {
 		List<JedisShardInfo> shards = new ArrayList<>();
-		JedisShardInfo jedisShardInfo = new JedisShardInfo("120.76.200.236", 6379);
-		jedisShardInfo.setPassword("chief2016");
+		JedisShardInfo jedisShardInfo = new JedisShardInfo("127.0.0.1", 6379);
+		jedisShardInfo.setPassword("test");
 		shards.add(jedisShardInfo);
 		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 		// config.setMaxTotal(1);
