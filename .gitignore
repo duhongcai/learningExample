@@ -6,3 +6,4 @@ target/
 *.log
 .settings/
 .DS_Store
+generatorTools/

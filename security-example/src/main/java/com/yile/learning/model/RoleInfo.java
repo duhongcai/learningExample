@@ -4,14 +4,14 @@ import com.rabbitframework.dbase.annontations.Column;
 import com.rabbitframework.dbase.annontations.ID;
 import com.rabbitframework.dbase.annontations.Table;
 
-@Table
+//@Table
 public class RoleInfo implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@ID
+//	@ID
 	private int roleId;
-	@Column
+//	@Column
 	private String roleName;
-	@Column
+//	@Column
 	private String roleCode;
 
 	public int getRoleId() {

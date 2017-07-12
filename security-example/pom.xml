@@ -11,6 +11,7 @@
 	<artifactId>security-example</artifactId>
 	<packaging>war</packaging>
 	<properties>
+	<shiro.version>1.2.4</shiro.version>
 		<jetty-maven-plugin.version>9.3.7.v20160115</jetty-maven-plugin.version>
 	</properties>
 	<dependencies>

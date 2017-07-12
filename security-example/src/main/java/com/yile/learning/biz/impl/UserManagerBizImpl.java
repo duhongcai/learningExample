@@ -15,7 +15,7 @@ import com.yile.learning.service.UserService;
 
 @Component
 public class UserManagerBizImpl implements UserManagerBiz {
-	@Autowired
+//	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private UserService userService;

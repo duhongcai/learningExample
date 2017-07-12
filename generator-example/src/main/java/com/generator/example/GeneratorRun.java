@@ -2,6 +2,7 @@ package com.generator.example;
 
 import java.io.Reader;
 
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,14 +15,14 @@ public class GeneratorRun {
 
 	public static void main(String[] args) throws Exception {
 		log.debug("generator start");
-		Reader reader = ResourceUtils.getResourceAsReader("generator-config.xml");
-		try {
-			RabbitGeneratorBuilder builder = new RabbitGeneratorBuilder();
-			RabbitGenerator rabbitGenerator = builder.build(reader);
-			rabbitGenerator.generator();
-		} finally {
-			reader.close();
-		}
+//		Reader reader = ResourceUtils.getResourceAsReader("generator-config.xml");
+//		try {
+//			RabbitGeneratorBuilder builder = new RabbitGeneratorBuilder();
+//			RabbitGenerator rabbitGenerator = builder.build(reader);
+//			rabbitGenerator.generator();
+//		} finally {
+//			reader.close();
+//		}
 		log.debug("generator end");
 	}
 }

@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -50,12 +51,18 @@ public class UploadResource extends RabbitContextResource {
 	public Object uploadImage(FormDataMultiPart form, @FormDataParam("username") String username,
 			@Context HttpServletResponse response, @Context HttpServletRequest request) throws IOException {
 		FormDataBodyPart filePart = form.getField("file");
-		InputStream is = filePart.getValueAs(InputStream.class);
-		FormDataContentDisposition formDataContentDisposition = filePart.getFormDataContentDisposition();
-		String realPath = request.getServletContext().getRealPath("/");
-		String filePath = realPath + File.separator + "images" + File.separator + System.currentTimeMillis() + "_"
-				+ formDataContentDisposition.getFileName();
-		FileUtils.copyInputStreamToFile(is, new File(filePath));
+		if (filePart != null) {
+			InputStream is = filePart.getValueAs(InputStream.class);
+			FormDataContentDisposition formDataContentDisposition = filePart.getFormDataContentDisposition();
+			String realPath = request.getServletContext().getRealPath("/");
+			String name = formDataContentDisposition.getFileName();
+			String filePath = realPath + File.separator + "images" + File.separator + System.currentTimeMillis() + "_"
+					+ name;
+			FileUtils.copyInputStreamToFile(is, new File(filePath));
+			IOUtils.closeQuietly(is);
+			response.flushBuffer();
+
+		}
 		return Response.ok("success").build();
 	}
 }

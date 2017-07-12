@@ -20,6 +20,7 @@
         <constructor-arg index="1">
             <value>${redis.port}</value>
         </constructor-arg>
+        <property name="password" value="${redis.password}"/>
     </bean>
 
     <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">

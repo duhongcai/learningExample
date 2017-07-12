@@ -10,7 +10,7 @@ import com.yile.learning.mapper.RoleMapper;
 import com.yile.learning.model.UserRole;
 import com.yile.learning.service.RoleService;
 
-@Service("roleService")
+//@Service("roleService")
 public class RoleServiceImpl implements RoleService {
 	@Resource
 	private RoleMapper RoleMapper;

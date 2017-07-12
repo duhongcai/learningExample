@@ -34,20 +34,20 @@ public class SecurityRealm extends SecurityAuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		logger.debug("AuthorizationInfo:" + getName());
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		Object obj = principals.getPrimaryPrincipal();
-		if (obj instanceof SecurityUser) {
-			logger.debug("====================doGetAuthorizationInfo begin ==========================");
-			SecurityUser securityUser = (SecurityUser) obj;
-			int userId = Integer.parseInt(securityUser.getUserId());
-			Set<String> userRoles = userManagerBiz.findUserRoleCodeByUserId(userId);
-			authorizationInfo.addRoles(userRoles);
-			logger.debug("====================doGetAuthorizationInfo end ==========================");
-		}
-		String permission1 = "/index";
-		String permission2 = "/index/2";
-		authorizationInfo.addStringPermission(permission1);
-		authorizationInfo.addStringPermission(permission2);
-		return authorizationInfo;
+//		Object obj = principals.getPrimaryPrincipal();
+//		if (obj instanceof SecurityUser) {
+//			logger.debug("====================doGetAuthorizationInfo begin ==========================");
+//			SecurityUser securityUser = (SecurityUser) obj;
+//			int userId = Integer.parseInt(securityUser.getUserId());
+//			Set<String> userRoles = userManagerBiz.findUserRoleCodeByUserId(userId);
+//			authorizationInfo.addRoles(userRoles);
+//			logger.debug("====================doGetAuthorizationInfo end ==========================");
+//		}
+//		String permission1 = "/index";
+//		String permission2 = "/index/2";
+//		authorizationInfo.addStringPermission(permission1);
+//		authorizationInfo.addStringPermission(permission2);
+		return null;
 	}
 
 	/**
@@ -77,6 +77,14 @@ public class SecurityRealm extends SecurityAuthorizingRealm {
 		SecurityUser securityUser = new SecurityUser(userInfo.getUserId() + "", username);
 		securityUser.setUserName(userInfo.getUserName());
 		return new SimpleAuthenticationInfo(securityUser, password, getName());
+	}
+	
+	public static void main(String[] args) {
+//		202cb962ac59075b964b07152d234b70
+		String password = "15523020732";
+		password = new Md5Hash(password).toString();
+		System.out.println(password);
+		
 	}
 
 }

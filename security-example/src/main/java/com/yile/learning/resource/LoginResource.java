@@ -78,6 +78,9 @@ public class LoginResource {
 	public Viewable index() {
 		logger.debug("index");
 		Subject subject = SecurityUtils.getSubject();
+		if(subject.isAuthenticated()) {
+			System.out.println("ddddddd");
+		}
 		Object obj = subject.getPrincipal();
 		SecurityUser securityUser = (SecurityUser) obj;
 		logger.debug("userId:" + securityUser.getUserId());

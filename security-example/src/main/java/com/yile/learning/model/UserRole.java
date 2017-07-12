@@ -3,16 +3,16 @@ package com.yile.learning.model;
 import com.rabbitframework.dbase.annontations.Column;
 import com.rabbitframework.dbase.annontations.Table;
 
-@Table
+//@Table
 public class UserRole implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	@Column
+//	@Column
 	private int id;
-	@Column
+//	@Column
 	private int userId;
-	@Column
+//	@Column
 	private int roleId;
-	@Column
+//	@Column
 	private String roleCode;
 
 	public String getRoleCode() {

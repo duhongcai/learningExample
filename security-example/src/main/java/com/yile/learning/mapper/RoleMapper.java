@@ -6,7 +6,7 @@ import com.rabbitframework.dbase.annontations.Mapper;
 import com.rabbitframework.dbase.annontations.Select;
 import com.yile.learning.model.UserRole;
 
-@Mapper
+//@Mapper
 public interface RoleMapper {
 	@Select("select * from user_role where user_id=#{userId}")
 	public List<UserRole> findUserRolesByUserId(int userId);

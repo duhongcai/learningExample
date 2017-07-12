@@ -5,13 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
 
 public class JedisTest {
 	private Jedis jedis = null;
 
 	@Before
 	public void before() {
-		jedis = new Jedis("192.168.134.134", 6379);
+		jedis = new Jedis("192.168.99.254", 6379);
+		jedis.auth("chief");
 	}
 
 	@After
@@ -21,15 +23,16 @@ public class JedisTest {
 		jedis.close();
 	}
 
-	// @Test
+	 @Test
 	public void testSet() {
+	
 		jedis.set("user:1", "liangjy");
 		System.out.println("getValue:" + jedis.get("user:1"));
 		long value = jedis.del("user:1");
 		System.out.println("value:" + value);
 	}
 
-	@Test
+//	@Test
 	public void testMset() {
 		String[] keyValue = new String[] { "test1", "value1", "test2", "value2" };
 		jedis.mset(keyValue);

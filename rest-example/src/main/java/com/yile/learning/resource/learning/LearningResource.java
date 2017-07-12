@@ -46,6 +46,13 @@ public class LearningResource extends RabbitContextResource {
 	public String getUserName() {
 		return learningservice.getUserName();
 	}
+	
+	@GET
+	@Path("testResponse")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Object testResponse() {
+		return Response.ok("dddd",MediaType.APPLICATION_JSON).status(404).build();
+	}
 
 	@GET
 	@Path("object/{flag}")

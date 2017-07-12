@@ -10,7 +10,7 @@ package com.yile.learning.cassandra.trade.model;
  * 			{name:"age",value:"23",timestamp:123456789}
  * 			{name:"sex",value:"女",timestamp:123456789}
  * 			{name:"address",value:"辽宁省大连市",timestamp:123456789}
- * 		}		
+ * 		}
  * 	}
  * </code>
  * 
