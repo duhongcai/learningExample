@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.DefaultValue;
@@ -30,123 +31,125 @@ import com.yile.learning.model.Learning;
 import com.yile.learning.service.LearningService;
 
 @Path("/")
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Singleton
+//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class LearningResource extends RabbitContextResource {
-	@Autowired
-	private LearningService learningservice;
+    @Autowired
+    private LearningService learningservice;
 
-	/**
-	 * get请求
-	 * 
-	 * @return
-	 */
-	@GET
-	@Path("getUserName")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getUserName() {
-		return learningservice.getUserName();
-	}
-	
-	@GET
-	@Path("testResponse")
-	@Produces({MediaType.APPLICATION_JSON})
-	public Object testResponse() {
-		return Response.ok("dddd",MediaType.APPLICATION_JSON).status(404).build();
-	}
+    /**
+     * get请求
+     *
+     * @return
+     */
+    @GET
+    @Path("getUserName")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getUserName() {
+        System.out.println(this);
+        return learningservice.getUserName();
+    }
 
-	@GET
-	@Path("object/{flag}")
-	public Object getObject(@PathParam("flag") int flag) throws Exception {
-		if (flag == 1) {
-			String body = "object";
-			ResponseBuilder builder = Response.ok(body);
-			return builder.build();
-		} else if (flag == 2) {
-			ResponseBuilder builder = Response.status(HttpServletResponse.SC_FOUND).location(new URI("/testIndex"));
-			return builder.build();
-		} else if (flag == 3) {
-			ResponseBuilder builder = Response.status(HttpServletResponse.SC_NOT_FOUND).entity("失败");
-			return builder.build();
-		} else {
-			return new Viewable("/index.jsp", null);
-		}
-	}
+    @GET
+    @Path("testResponse")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Object testResponse() {
+        return Response.ok("dddd", MediaType.APPLICATION_JSON).status(404).build();
+    }
 
-	@GET
-	@Path("testIndex")
-	@Produces(MediaType.TEXT_HTML)
-	public Viewable index() {
-		return new Viewable("/index.jsp", null);
-	}
+    @GET
+    @Path("object/{flag}")
+    public Object getObject(@PathParam("flag") int flag) throws Exception {
+        if (flag == 1) {
+            String body = "object";
+            ResponseBuilder builder = Response.ok(body);
+            return builder.build();
+        } else if (flag == 2) {
+            ResponseBuilder builder = Response.status(HttpServletResponse.SC_FOUND).location(new URI("/testIndex"));
+            return builder.build();
+        } else if (flag == 3) {
+            ResponseBuilder builder = Response.status(HttpServletResponse.SC_NOT_FOUND).entity("失败");
+            return builder.build();
+        } else {
+            return new Viewable("/index.jsp", null);
+        }
+    }
 
-	/**
-	 * get请求,传递参数 example: /getUserNameById/test?id=1234
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@GET
-	@Path("getUserNameById/{uriId}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getUserNameById(@PathParam("uriId") String uriId,
-			@QueryParam("id") @DefaultValue("description") String id) {
-		System.out.println("uriId:" + uriId);
-		System.out.println("getUserNameById:" + id);
-		return id;
-	}
+    @GET
+    @Path("testIndex")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable index() {
+        return new Viewable("/index.jsp", null);
+    }
 
-	@PUT
-	@Path("putId")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String putId(String id) {
-		System.out.println("putId:" + id);
-		return "putSuccess";
-	}
+    /**
+     * get请求,传递参数 example: /getUserNameById/test?id=1234
+     *
+     * @param id
+     * @return
+     */
+    @GET
+    @Path("getUserNameById/{uriId}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getUserNameById(@PathParam("uriId") String uriId,
+                                  @QueryParam("id") @DefaultValue("description") String id) {
+        System.out.println("uriId:" + uriId);
+        System.out.println("getUserNameById:" + id);
+        return id;
+    }
 
-	@PUT
-	@Path("putObject")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String putObject(Learning user) {
-		System.out.println("putId:" + user.getName());
-		return "putObjectSuccess";
-	}
+    @PUT
+    @Path("putId")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String putId(String id) {
+        System.out.println("putId:" + id);
+        return "putSuccess";
+    }
 
-	@POST
-	@Path("post")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String post(@BeanParam Learning user) {
-		System.out.println("putId:" + user.getId());
-		return "postSuccess";
-	}
+    @PUT
+    @Path("putObject")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String putObject(Learning user) {
+        System.out.println("putId:" + user.getName());
+        return "putObjectSuccess";
+    }
 
-	@GET
-	@Path("error")
-	public Viewable error() {
-		return new Viewable("/error/401.jsp", null);
-	}
+    @POST
+    @Path("post")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String post(@BeanParam Learning user) {
+        System.out.println("putId:" + user.getId());
+        return "postSuccess";
+    }
 
-	@GET
-	@Path("freemarkerHtml")
-	@Produces(MediaType.TEXT_HTML)
-	public Viewable freemarkerHtml() {
-		return getFreemarker("/hello.html");
-	}
+    @GET
+    @Path("error")
+    public Viewable error() {
+        return new Viewable("/error/401.jsp", null);
+    }
 
-	@GET
-	@Path("freemarkerFtl")
-	@Produces(MediaType.TEXT_HTML)
-	public Viewable freemarkerFtl() {
-		return getFreemarker("/hello.ftl");
-	}
+    @GET
+    @Path("freemarkerHtml")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable freemarkerHtml() {
+        return getFreemarker("/hello.html");
+    }
 
-	private Viewable getFreemarker(String path) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		List<String> lstValue = new ArrayList<String>();
-		lstValue.add("item1");
-		lstValue.add("item2");
-		lstValue.add("item3");
-		params.put("user", "Pavel");
-		params.put("items", lstValue);
-		return new Viewable(path, params);
-	}
+    @GET
+    @Path("freemarkerFtl")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable freemarkerFtl() {
+        return getFreemarker("/hello.ftl");
+    }
+
+    private Viewable getFreemarker(String path) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        List<String> lstValue = new ArrayList<String>();
+        lstValue.add("item1");
+        lstValue.add("item2");
+        lstValue.add("item3");
+        params.put("user", "Pavel");
+        params.put("items", lstValue);
+        return new Viewable(path, params);
+    }
 }

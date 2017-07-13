@@ -31,6 +31,7 @@
 	<filter>
 		<filter-name>lollipopRest</filter-name>
 		<filter-class>com.rabbitframework.web.servlet.RabbitServletContainer</filter-class>
+
 		<init-param>
 			<param-name>jersey.config.servlet.filter.contextPath</param-name>
 			<param-value>/</param-value>
